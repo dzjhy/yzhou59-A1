@@ -1,3 +1,4 @@
+//https://github.com/dzjhy/yzhou59-A1.git
 public class GeneralPractitioner extends HealthProfessional {
     // Unique instance variable: Specialized general practice areas (e.g., family medicine, common disease treatment)
     private String specializedAreas;

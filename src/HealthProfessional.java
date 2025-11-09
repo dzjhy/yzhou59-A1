@@ -1,3 +1,4 @@
+//https://github.com/dzjhy/yzhou59-A1.git
 public class HealthProfessional {
     // Required instance variables: ID (numeric only), Name
     protected int id;
