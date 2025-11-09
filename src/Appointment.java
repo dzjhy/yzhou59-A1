@@ -4,64 +4,64 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Appointment {
-    // 患者信息（确保属性正确定义）
+    // Patient information (ensure correct attribute definition)
     private String patientName;
     private String patientMobile;
-    // 预约信息：拆分日期+时间段
+    // Appointment information: split into date + time slot
     private LocalDate appointmentDate;
     private LocalTime timeSlot;
-    // 预约的医生（多态应用，依赖 HealthProfessional 基类）
+    // Appointed doctor (polymorphism application, depends on HealthProfessional base class)
     private HealthProfessional doctor;
 
-    // 默认构造方法
+    // Default constructor
     public Appointment() {}
 
-    // 核心构造方法（带时间校验）
+    // Core constructor (with time validation)
     public Appointment(String patientName, String patientMobile, String timeSlot, HealthProfessional doctor) {
         this.patientName = patientName;
         this.patientMobile = patientMobile;
         this.doctor = doctor;
-        this.appointmentDate = LocalDate.now(); // 默认预约当天
+        this.appointmentDate = LocalDate.now(); // Default to same-day appointment
 
-        // 1. 解析并校验时间段格式（HH:mm）
+        // 1. Parse and validate time slot format (HH:mm)
         LocalTime parsedTime;
         try {
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             parsedTime = LocalTime.parse(timeSlot, timeFormatter);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("时间段格式错误！请使用 HH:mm 格式（例：08:30、14:00）");
+            throw new IllegalArgumentException("Invalid time slot format! Please use HH:mm format (e.g., 08:30, 14:00)");
         }
 
-        // 2. 校验工作时段（08:00-18:00）和时效性
+        // 2. Validate working hours (08:00-18:00) and timeliness
         LocalTime nowTime = LocalTime.now();
         if (parsedTime.isBefore(LocalTime.of(8, 0)) || parsedTime.isAfter(LocalTime.of(18, 0))) {
-            throw new IllegalArgumentException("预约时间超出工作时段！工作时间：08:00-18:00");
+            throw new IllegalArgumentException("Appointment time is outside working hours! Working hours: 08:00-18:00");
         }
         if (parsedTime.isBefore(nowTime) && appointmentDate.isEqual(LocalDate.now())) {
-            throw new IllegalArgumentException("预约时间已过！当前时间：" + nowTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+            throw new IllegalArgumentException("Appointment time has passed! Current time: " + nowTime.format(DateTimeFormatter.ofPattern("HH:mm")));
         }
 
         this.timeSlot = parsedTime;
     }
 
-    // 打印预约详情
+    // Print appointment details
     public void printAppointmentDetails() {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        System.out.println("=== 预约详情 ===");
-        System.out.println("患者姓名：" + patientName);
-        System.out.println("患者手机号：" + patientMobile);
-        System.out.println("预约日期：" + appointmentDate);
-        System.out.println("预约时间段：" + timeSlot.format(timeFormatter));
-        System.out.println("预约医生信息：");
-        doctor.printDetails(); // 多态调用
+        System.out.println("=== Appointment Details ===");
+        System.out.println("Patient Name: " + patientName);
+        System.out.println("Patient Mobile: " + patientMobile);
+        System.out.println("Appointment Date: " + appointmentDate);
+        System.out.println("Appointment Time Slot: " + timeSlot.format(timeFormatter));
+        System.out.println("Appointed Doctor Information:");
+        doctor.printDetails(); // Polymorphic call
     }
 
-    // Getter方法（取消预约用）
+    // Getter method (for appointment cancellation)
     public String getPatientMobile() {
         return patientMobile;
     }
 
-    // 新增：获取患者姓名（优化取消预约提示）
+    // New: Get patient name (optimize cancellation prompt)
     public String getPatientName() {
         return patientName;
     }

@@ -1,28 +1,28 @@
 public class HealthProfessional {
-    // 必需实例变量：ID（仅数字）、姓名
+    // Required instance variables: ID (numeric only), Name
     protected int id;
     protected String name;
-    // 通用实例变量：专业资格证书编号
+    // Common instance variable: Professional Qualification Certificate Number
     protected String qualificationNo;
 
-    // 默认构造方法
+    // Default constructor
     public HealthProfessional() {}
 
-    // 初始化所有实例变量的构造方法
+    // Constructor to initialize all instance variables
     public HealthProfessional(int id, String name, String qualificationNo) {
         this.id = id;
         this.name = name;
         this.qualificationNo = qualificationNo;
     }
 
-    // 打印所有实例变量的方法
+    // Method to print all instance variables
     public void printDetails() {
-        System.out.println("健康专业人员ID：" + id);
-        System.out.println("姓名：" + name);
-        System.out.println("资格证书编号：" + qualificationNo);
+        System.out.println("Health Professional ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Qualification Certificate Number: " + qualificationNo);
     }
 
-    // Getter方法（用于Appointment类访问）
+    // Getter methods (for access in Appointment class)
     public int getId() { return id; }
     public String getName() { return name; }
     public String getQualificationNo() { return qualificationNo; }
